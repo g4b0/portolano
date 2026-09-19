@@ -105,9 +105,9 @@ It asks for one page: what the repository is, how it is laid out, and what it di
 
 | Page | What is in it |
 |---|---|
-| 🚀 [**Quickstart**](docs/quickstart.md) | a working wiki in about ten minutes |
-| 📖 [**Format reference**](docs/format.md) | frontmatter, vocabularies, linking, length rules — the wiki about the wiki |
-| 🔭 [**Prior art**](docs/prior-art.md) | where this sits in the literature and among existing tools |
+| 🚀 [**Quickstart**](https://github.com/g4b0/portolano/blob/main/docs/quickstart.md) | a working wiki in about ten minutes |
+| 📖 [**Format reference**](https://github.com/g4b0/portolano/blob/main/docs/format.md) | frontmatter, vocabularies, linking, length rules — the wiki about the wiki |
+| 🔭 [**Prior art**](https://github.com/g4b0/portolano/blob/main/docs/prior-art.md) | where this sits in the literature and among existing tools |
 
 ---
 
@@ -123,6 +123,6 @@ Three references worth knowing, and they are not the same thing:
 
 ---
 
-**Status:** v0 — the format is settled enough to use and still expected to move. See [prior art](docs/prior-art.md) for what is and isn't new here.
+**Status:** v0 — the format is settled enough to use and still expected to move. See [prior art](https://github.com/g4b0/portolano/blob/main/docs/prior-art.md) for what is and isn't new here.
 
-**License:** [Apache-2.0](LICENSE).
+**License:** [Apache-2.0](https://github.com/g4b0/portolano/blob/main/LICENSE).
