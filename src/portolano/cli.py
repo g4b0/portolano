@@ -109,9 +109,13 @@ WRITTEN_BY_INIT = ("AGENTS.md", "CLAUDE.md", core.CONFIG_NAME)
 def check_target(root: Path, force: bool) -> None:
     """Refuse to scatter a workspace over a directory that is already in use.
 
-    Initialising inside an existing project is legitimate - that is the
-    single-repository shape - but it has to be asked for, because the same
-    command run in the wrong directory is how somebody's work gets buried.
+    `--force` exists for a directory that is the right one but untidy - a
+    README written in advance, a leftover virtualenv. It is not a way to run
+    a workspace inside the project it documents: the code has to be a
+    registered submodule for `stale` to have anything to measure against.
+
+    The check is here because the same command run in the wrong directory is
+    how somebody's work gets buried.
     """
     if (root / core.CONFIG_NAME).exists():
         fail(f"{root / core.CONFIG_NAME} already exists - this is already a workspace")

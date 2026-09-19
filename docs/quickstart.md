@@ -50,7 +50,7 @@ portolano init my-wiki && cd my-wiki
 
 You get `AGENTS.md` (the router), `portolano.yaml`, the generated `CLAUDE.md`, and the two empty directories. No wiki yet — a wiki is created by `portolano add`, one per repository, as the triplet `index.md` (the catalog), `README.md` (the landing page), `CHANGELOG.md` (the trace).
 
-`init` refuses a directory that already has files in it, so a mistyped path cannot scatter a workspace over an existing project. To initialise *inside* one — the single-repository shape — pass `--force`. Even then it will not overwrite an `AGENTS.md`, `CLAUDE.md` or `portolano.yaml` that already exists.
+`init` refuses a directory that already has files in it, so a mistyped path cannot scatter a workspace over an existing project. `--force` overrides that when you know the directory is the right one and merely untidy — a `README.md` you had already written, a leftover virtualenv. Even then it will not overwrite an `AGENTS.md`, `CLAUDE.md` or `portolano.yaml` that already exists.
 
 ## 3. Add the code you want to describe
 
@@ -227,9 +227,13 @@ Commit it — these are the team's rules, not one person's preferences.
 | Shape | What changes |
 |---|---|
 | **Many repos** | the layout above: one submodule and one wiki each, plus the master |
-| **One repo** | `portolano init --force .` inside the project itself, `wiki/<name>/` beside the code, no submodules and no master. Nothing else differs |
+| **One repo** | the same layout with a single submodule, and no master — cross-cutting knowledge needs at least two things to cut across. Nothing else differs |
 
-The method is the same either way. Only the number of submodules changes.
+The method is the same either way. **Only the number of submodules changes.**
+
+The workspace is always its own repository, and the code always arrives as a submodule — including when there is exactly one of it. That is what lets the wiki describe a repository you do not own, cannot commit to, or only have read access to.
+
+Running `portolano init` *inside* the project you want to document is not a supported shape: the freshness contract measures a page against the repository registered for its wiki, and a workspace with no registered repository has nothing to measure against.
 
 ---
 
