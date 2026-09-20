@@ -32,6 +32,12 @@ Their roadmap lists four open questions. The mitigation half of the fourth — *
 
 The gist is about sources you *read*: documents that sit still. Portolano applies the same method where the source **moves on its own**, which is the whole reason a freshness contract is needed at all. Chronologically the gist comes first; it is the method ancestor, not an answer to the paper above.
 
+**[llm-wiki-manager](https://github.com/sametbrr/llm-wiki-manager)** — May 2026. The gist built out as a working skill, and the closest sibling this project has. Three layers: `raw/` for sources a human curates, `wiki/` for pages the model owns, a schema file describing the conventions. It has an index as the front door, a changelog, and a linter for orphans and broken links.
+
+The resemblance runs deep, and so does the one difference that matters. It documents **documents** — papers, articles, transcripts — and a document does not change after you file it. There is no commit to measure against because nothing moves on its own, so a freshness contract would have nothing to attach to.
+
+That is the whole line between the two, and it is worth stating plainly: **the substrate is what forces the mechanism.** Point the same method at source code and `covers` plus `verified-at` stop being an embellishment and become the part that keeps the wiki worth reading. Neither project is a version of the other.
+
 ---
 
 ## The evidence that shapes the format
