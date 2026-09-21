@@ -15,7 +15,7 @@ Every wiki — a per-repository one, or the optional [master wiki](quickstart.md
 | File | Role |
 |---|---|
 | `index.md` | the catalog, plus a hand-written **Read first** list. **The front door** — agents read it first and never scan folders |
-| `README.md` | the landing page a human hits when browsing the folder. One or two lines on what this wiki covers |
+| `README.md` | the wiki's hat, and the landing page a human hits when browsing the folder: what the repository is — in the master wiki, what the system is — and one line per top-level directory or repository. No frontmatter, so nothing in it that a commit can make false — no `file:line`, no file below the top level. `index.md` links to it from under its title |
 | `CHANGELOG.md` | append-only trace of what changed in the wiki and why |
 
 **Rules do not live in any of the three.** A convention — a code style, a testing rule, a constraint that holds for one area — is knowledge about the code, and knowledge about the code goes stale. Put it in a **page**, with full frontmatter, so it carries `covers` and `verified-at` and `portolano stale` can tell you when it has expired. A convention in a README can never be checked.

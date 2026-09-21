@@ -100,6 +100,12 @@ There is no line limit — the unit is the subject, not the length.
 which pages the code has moved out from under. **Suspect is not wrong** — re-read, fix, \
 then advance `verified-at`.
 
+**A wiki's `README.md` is its hat, and the one file meant never to change.** It says what the \
+repository is — in the master wiki, what the system is — and how it divides: one line per \
+top-level directory, or per repository. Nothing in it may be something a commit can make false: \
+no frontmatter, no `file:line`, no file below the top level, no diagram. `index.md` links to it \
+from under its title.
+
 ## Linking
 
 `related:` is the link graph, kept **inside the page** so it is edited with the content \
@@ -184,9 +190,13 @@ INDEX_MD = """# {title} — wiki index
 <!-- /portolano:index -->
 """
 
+# `bootstrap` treats a README that still carries this as unwritten, so the
+# placeholder and the check share one string.
+README_PLACEHOLDER = "Replace this."
+
 WIKI_README_MD = """# {title} — knowledge wiki
 
-*(What this wiki covers, in a line or two. Replace this.)*
+*(What the repository is, and one line per top-level directory. Replace this.)*
 
 **Start at [`index.md`](index.md)** — the catalog of pages, and what to read first.
 """
@@ -199,6 +209,8 @@ CHANGELOG_MD = """# {title} — wiki changelog
 MASTER_README_BODY = """# {title} — master wiki
 
 *Domain knowledge that spans repositories: terms, flows, invariants, boundaries.*
+
+*(What the system does and for whom, and which repository owns what. Replace this.)*
 
 **Start at [`index.md`](index.md).**
 """
@@ -220,36 +232,41 @@ repository that owns it, and that wiki overrides the master where they disagree.
 # ---------------------------------------------------------------------------
 # The bootstrap brief
 # ---------------------------------------------------------------------------
-# Printed by `portolano bootstrap`, never written to disk. It is a prompt, not a
-# file the workspace keeps: `portolano` makes no model calls, so the agent - any
-# agent - is the one that does the work. What the command contributes is the
+# Written to `briefs/<wiki>.md` by `portolano bootstrap`. It is a prompt, not
+# knowledge the workspace keeps: `portolano` makes no model calls, so the agent -
+# any agent - is the one that does the work. What the command contributes is the
 # measuring, which is cheap, exact, and the part an agent is worst at guessing.
+#
+# What it asks for is the wiki's README: a fixed file, so no frontmatter and no
+# freshness contract - and therefore nothing in it a commit could make false.
 
 ALTITUDE_LOW = """**Low pass — the repository is small enough to read.**
 
-Open the entry point of each area and say what it does. Read **at most 30 files**. If the \
-repository turns out to be smaller still, you may write up to **three** more pages after the \
-overview, one per area that genuinely stands alone."""
+Read what you need to be sure what each area is for, entry points first — **at most 30 files**. \
+Reading all of it is allowed; describing all of it is not. What you learn below the level of an \
+area may go on up to **three** pages, one per area that genuinely stands alone, each with its \
+own `covers` and `verified-at`. The README stays as short as if you had read nothing."""
 
 ALTITUDE_CRUISING = """**Cruising altitude — too large to read, small enough to map.**
 
-Name each top-level area and where its responsibility ends. Open **entry points only** — the \
-manifest, the routes, the main module — and **at most 15 files**. No implementation. \
-**One page, then stop.**"""
+Name each top-level area and what it is for. Open **entry points only** — the manifest, the \
+top-level README, the main module — and **at most 15 files**. No implementation. \
+**The README, then stop.**"""
 
 ALTITUDE_HIGH = """**Ten thousand metres — this repository will not fit in any context window.**
 
 Name the top-level areas and nothing below them. Open **at most 5 files**: the manifest, the \
-top-level README, the entry point. Read no implementation at all. **One page, then stop.**"""
+top-level README, the entry point. Read no implementation at all. **The README, then stop.**"""
 
 
 BOOTSTRAP_MD = """# Bootstrap the `{wiki}` wiki
 
-The wiki at `{wiki_path}` is empty. Your job is to write its **first page**: a map of the \
-territory, not a description of it.
+The wiki at `{wiki_path}` is empty. Your job is to fill in its **`README.md`**: what this \
+repository is and how it divides, in words that stay true for as long as the project does. It is \
+the wiki's landing page, and the one file in it meant never to change.
 
 **Read `AGENTS.md` at the workspace root before you start.** It holds the page format and the \
-rules that apply to every page; none of it is repeated here.
+rules for every page. The README is not a page, and this brief says where it departs from them.
 
 ## What has already been measured for you
 
@@ -259,71 +276,65 @@ rules that apply to every page; none of it is repeated here.
 | Files tracked by git | **{files}** |
 | Top-level directories | {dirs} |
 | Paths not counted | {skipped} |
-| Commit to record as `verified-at` | `{commit}` |
+| Commit to record as `verified-at` on any code page | `{commit}` |
 
 {altitude}
 
 ## Four rules
 
-1. **Describe what you see, never what you expect.** A framework you recognise does not tell \
-you what this project did with it. If you did not open the file, name it and say it is \
-undocumented — that is a useful sentence. A guess dressed as a fact is worse than a blank page, \
+1. **Write what outlives the code.** The README should never need editing unless the project \
+changes course. Test every sentence: would it still be true after a year of ordinary commits? A \
+file name, a function, a line number, a count, a version — each one fails, and belongs on a code \
+page if anywhere.
+2. **Describe what you see, never what you expect.** A framework you recognise does not tell \
+you what this project did with it. A guess dressed as a fact is worse than a blank page, \
 because the next reader cannot tell them apart.
-2. **Spend little.** You are drawing the coastline, not sounding the harbour. Stay inside the \
-file budget above; when you reach it, stop and write what you have.
-3. **Structure, then hand over.** Your output is a map the maintainer uses to decide what to \
-document next. Finding the areas is the work. Explaining them is theirs.
-4. **Declare every gap.** End the page with what you did not look at and what you could not \
-work out. An honest list of holes is the most valuable thing a first page contains.
+3. **Spend little.** You are drawing the coastline, not sounding the harbour. Stay inside the \
+file budget above, and remember that reading more does not mean writing more.
+4. **Hand the gaps over; do not file them.** What you did not open, what looked wrong, what you \
+could not work out: it is the most valuable thing you found and the most perishable, so it goes \
+in your report to the maintainer, not in a file meant never to change.
 
-## The page to write
+## The file to fill
 
-`{wiki_path}/overview.md`, with this frontmatter:
+`{wiki_path}/README.md` already exists. Replace its placeholder line and keep the rest — the \
+title, and the pointer to `index.md` at the bottom.
 
-```yaml
----
-title: {title} — overview
-slug: overview
-type: overview
-status: active
-summary: <one line, and it is reused verbatim in index.md>
-related: []
-updated: {date}
-evidence: read
-verified-at: {commit}
-covers: [<see below>]
----
-```
+**No frontmatter.** The README is one of the wiki's three fixed files: it is not a page, it is not \
+listed under `## Pages`, and it carries no `covers` or `verified-at`. That is the point — nothing in \
+it should be something a commit can make false.
 
-**`covers` is not `**`.** A page that claims the whole tree is suspect after every commit, which \
-is the same as being suspect never. List the few files that change when the *shape* changes — \
-the build manifest, the dependency file, the top-level config. If this repository has none, \
-leave `covers` and `verified-at` out entirely: a page with no freshness contract is honest, a \
-contract that cries wolf is not.
-
-The body answers three questions and stops:
+It answers two questions and stops:
 
 | Question | What the answer contains |
 |---|---|
-| **What is this?** | what the repository is for, in two or three sentences. Not what the framework does — what *this* project does with it |
-| **How is it laid out?** | one row per top-level area: its name, what lives there, and where its responsibility ends. This is the part that has to be right |
-| **What is not documented yet?** | the areas you flew over, the questions you could not answer, anything that looked surprising and went unexplained |
+| **What is this?** | what the repository is for and who it serves, in two or three sentences. What *this* project does, not what its framework does |
+| **How is it laid out?** | one row per top-level directory in the table above: what it is for, in one line. Directories, not files — nothing below the top level |
 
-## When the page is written
+That is the whole file. A dozen lines is a good README; a hundred is a code page in disguise.
 
-1. Add it to `## Pages` in `{wiki_path}/index.md`, inside the markers, reusing `summary:` verbatim.
-2. Append one line to `{wiki_path}/CHANGELOG.md`.
-3. Tell the maintainer **which area you would document next, and why** — you have just read more \
-of this repository than anyone will for a while.
+## What stays out of the README
 
-## What not to do
-
-| Do not | Why |
+| Leave out | Why |
 |---|---|
-| Do not write stub pages | forty stubs pointing at each other are worse than one honest page |
-| Do not paste code | cite `file:line` |
-| Do not narrate the search | the result, not the voyage |
-| Do not invent a `verified-at` | it is in the table above |
+| `file:line`, and any file below the top level | `AGENTS.md` asks for them on code pages, where `verified-at` keeps them honest. The README has none, so nothing would ever tell you they moved |
+| Diagrams | same reason: a diagram is covered by a `verified-at` the README does not have |
+| Traps, gotchas, surprises | a code page, if the altitude allows one. Otherwise your report |
+| A list of what is not documented | the index is the list of what is. The gaps go in your report |
+| Stub pages | forty stubs pointing at each other are worse than one honest page |
+| The story of the search | the result, not the voyage |
+
+## When you are done
+
+1. Link the README from `{wiki_path}/index.md`: one line under the title, above `## Read first` — \
+`[README.md](README.md) — ` and what this repository is, in one line. It is the wiki's hat, there \
+for any reader who wants it.
+2. Append one line to `{wiki_path}/CHANGELOG.md`.
+3. If you wrote code pages, add each to `## Pages` in `{wiki_path}/index.md`, inside the markers, \
+reusing its `summary:` verbatim.
+4. Report to the maintainer, in this order: what you did not open; what looked wrong or \
+contradictory, with `file:line` — here it belongs; and **which area you would document next, \
+and why**. You have just read more of this repository than anyone will for a while.
 """
 
 
@@ -349,13 +360,14 @@ rules that apply to every page; none of it is repeated here.
 
 ## What you read, and what you do not
 
-| Wiki | Its overview |
+| Wiki | Its README |
 |---|---|
-{overviews}
+{readmes}
 
-**Read those pages and nothing else. No source code at all.** The master wiki is written from \
-the repository wikis, not from the repositories. If one of them has no overview yet, say so and \
-stop — a master page built on a wiki that does not exist is a guess.
+**Read those files, then the pages each wiki's `index.md` lists — and nothing else. No source \
+code at all.** The master wiki is written from the repository wikis, not from the repositories. \
+If a README is not written yet, say so and stop — a master page built on a wiki that does not \
+exist is a guess.
 
 ## Four rules
 
@@ -364,21 +376,30 @@ repository that owns it. A master page with `file:line` references in it has tak
 else's job.
 2. **Only what spans.** If a fact is true of one repository alone, it is already in that \
 repository's wiki and does not belong here.
-3. **Describe what you see, never what you expect.** The repository overviews are your only \
+3. **Describe what you see, never what you expect.** The repository wikis are your only \
 evidence. Where two of them use the same word for different things, that disagreement **is** \
 the finding — write it down rather than smoothing it over.
 4. **Declare every gap.** End with the terms you could not pin down and the flows you could \
 only half trace.
 
-## The page to write
+## What to write
 
-`{wiki_path}/overview.md`, with this frontmatter:
+**`{wiki_path}/README.md`** already exists. Replace its placeholder line and keep the rest. It is a \
+fixed file — no frontmatter, no `file:line` — and it answers two questions:
+
+| Question | What the answer contains |
+|---|---|
+| **What is this system?** | what the whole thing does, for whom. Two or three sentences |
+| **Where do the boundaries fall?** | one row per repository: what it owns, and why the split is where it is |
+
+**`{wiki_path}/glossary.md`**, a page, for the domain terms defined once — the part that pays for \
+the master wiki. Use this frontmatter:
 
 ```yaml
 ---
-title: {name} — domain overview
-slug: overview
-type: overview
+title: {name} — glossary
+slug: glossary
+type: reference
 status: active
 summary: <one line, and it is reused verbatim in index.md>
 related: []
@@ -387,20 +408,15 @@ evidence: read
 ---
 ```
 
-**No `covers`, no `verified-at`.** A business domain does not move with commits, so a freshness \
-contract here would only cry wolf. Leave both out.
+**No `covers`, no `verified-at`**, on either file. A business domain does not move with commits, \
+so a freshness contract here would only cry wolf.
 
-The body answers three questions and stops:
+## When you are done
 
-| Question | What the answer contains |
-|---|---|
-| **What is this system?** | what the whole thing does, for whom. Two or three sentences |
-| **What do the words mean?** | the domain terms, defined once. This is the part that pays for the page |
-| **Where do the boundaries fall?** | which repository owns what, and why the split is where it is |
-
-## When the page is written
-
-1. Add it to `## Pages` in `{wiki_path}/index.md`, inside the markers, reusing `summary:` verbatim.
-2. Append one line to `{wiki_path}/CHANGELOG.md`.
-3. Tell the maintainer which domain term deserves its own page next, and why.
+1. Link the README from `{wiki_path}/index.md`: one line under the title, above `## Read first` — \
+`[README.md](README.md) — ` and what the system is, in one line.
+2. Add the glossary to `## Pages` in the same `index.md`, inside the markers, reusing `summary:` \
+verbatim.
+3. Append one line to `{wiki_path}/CHANGELOG.md`.
+4. Tell the maintainer which domain term deserves its own page next, and why.
 """

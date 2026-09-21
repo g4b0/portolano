@@ -220,6 +220,16 @@ def test_bootstrap_writes_a_brief_carrying_the_measurement_and_the_commit(worksp
     assert "`src`" in brief
 
 
+def test_bootstrap_skips_a_wiki_whose_readme_is_written(workspace, capsys):
+    """The README is what a bootstrap fills in, so a written one means the job is done."""
+    readme = workspace / "wiki" / "backend" / "README.md"
+    readme.write_text("# backend\n\nThe billing service.\n")
+    cli.main(["bootstrap"])
+
+    assert not (workspace / "briefs" / "backend.md").exists()
+    assert "README.md already written" in capsys.readouterr().out
+
+
 def test_briefs_ignore_themselves(workspace):
     """Briefs are spent instructions, so the directory keeps them out of git."""
     cli.main(["bootstrap"])
@@ -259,12 +269,13 @@ def test_bootstrap_covers_every_wiki_in_one_run(workspace, upstream):
 
 
 def test_the_master_brief_is_written_from_the_repo_wikis_not_from_the_code(workspace):
-    """The master wiki spans repositories, so its evidence is their overviews."""
+    """The master wiki spans repositories, so its evidence is their wikis."""
     cli.main(["master"])
     cli.main(["bootstrap", core.MASTER_WIKI])
 
     brief = (workspace / "briefs" / f"{core.MASTER_WIKI}.md").read_text()
-    assert "wiki/backend/overview.md" in brief
+    assert "wiki/backend/README.md" in brief
+    assert "`wiki/_master/README.md`" in brief  # its own hat, filled like any other
     assert "not written yet" in brief          # it says so rather than assuming
     assert "No source code at all" in brief
 

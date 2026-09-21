@@ -82,7 +82,7 @@ wrote briefs/frontend.md
 wrote briefs/_master.md
 ```
 
-One brief per wiki, in `briefs/`. Each counts the files git tracks in that repository, lists the top-level areas, and reads the commit the submodule sits on. The master wiki gets a different brief: it is written **from the repository overviews, never from the code**, so it lists them and says which ones do not exist yet.
+One brief per wiki, in `briefs/`. Each counts the files git tracks in that repository, lists the top-level areas, and reads the commit the submodule sits on. The master wiki gets a different brief: it is written **from the repository wikis, never from the code**, so it lists their READMEs and says which ones are not written yet.
 
 `briefs/` keeps itself out of git — a brief is a spent instruction, and the durable record is the wiki's `CHANGELOG.md`. Keep one anyway with `git add -f` if you want it.
 
@@ -94,11 +94,11 @@ The brief sets the **altitude** from the measurement, so the agent does not deci
 
 | Files tracked | What the agent is told |
 |---|---|
-| ≤ 150 | read the entry points, describe each area, at most 30 files |
-| ≤ 1500 | name each area and its boundary, entry points only, at most 15 files |
+| ≤ 150 | read what it needs to be sure of each area, at most 30 files, and up to three code pages besides the README |
+| ≤ 1500 | name each area and what it is for, entry points only, at most 15 files |
 | more | name the top-level areas, read no implementation at all, at most 5 files |
 
-Whatever the size, the brief asks for **one page**: an overview that says what the repository is, how it is laid out, and — the part that matters most — **what it did not look at**. That list is your queue.
+Whatever the size, the brief asks for the wiki's **`README.md`**, and asks for it **short and meant never to change**: what the repository is, and one line per top-level directory. The README is a fixed file, so it has no frontmatter — no `covers`, no `verified-at`, and nothing in it a commit could make false: no `file:line`, no diagram. What the agent did not look at, and what looked wrong, comes back to you in its report instead of going in the file. That report is your queue.
 
 **`portolano` makes no model calls, here or anywhere.** The brief is text; your agent does the work. What the command contributes is the counting and the commit, which is what an agent guesses badly and git answers exactly.
 

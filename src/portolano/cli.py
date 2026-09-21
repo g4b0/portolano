@@ -321,6 +321,12 @@ def cmd_remove(args: argparse.Namespace) -> int:
     return 0
 
 
+def readme_written(root: Path, config: dict, name: str) -> bool:
+    """A README is written once the placeholder `add` left in it is gone."""
+    readme = root / config["wiki_dir"] / name / "README.md"
+    return readme.exists() and templates.README_PLACEHOLDER not in readme.read_text(encoding="utf-8")
+
+
 def wiki_pages(root: Path, config: dict, name: str) -> list[str]:
     """The pages a wiki already has, the three fixed files aside."""
     wiki = root / config["wiki_dir"] / name
@@ -374,15 +380,15 @@ def master_brief(root: Path, config: dict) -> str:
     """The master wiki is written from the repo wikis, so it lists them."""
     rows = []
     for ref in core.iter_repos(config):
-        overview = f"{config['wiki_dir']}/{ref.name}/overview.md"
-        written = (root / overview).exists()
-        rows.append(f"| `{ref.name}` | `{overview}`" + ("" if written else " — **not written yet**") + " |")
+        readme = f"{config['wiki_dir']}/{ref.name}/README.md"
+        written = readme_written(root, config, ref.name)
+        rows.append(f"| `{ref.name}` | `{readme}`" + ("" if written else " — **not written yet**") + " |")
 
     return templates.BOOTSTRAP_MASTER_MD.format(
         wiki_path=f"{config['wiki_dir']}/{core.MASTER_WIKI}",
         name=config["name"],
         date=core.today(),
-        overviews="\n".join(rows) or "| *(no repositories yet)* | |",
+        readmes="\n".join(rows) or "| *(no repositories yet)* | |",
     )
 
 
@@ -414,6 +420,9 @@ def cmd_bootstrap(args: argparse.Namespace) -> None:
         if pages and not args.force:
             skipped.append(f"{name} (has {len(pages)} page(s): {', '.join(pages[:3])})")
             continue
+        if readme_written(root, config, name) and not args.force:
+            skipped.append(f"{name} (README.md already written)")
+            continue
 
         if name == core.MASTER_WIKI:
             text = master_brief(root, config)
@@ -434,7 +443,7 @@ def cmd_bootstrap(args: argparse.Namespace) -> None:
     if written:
         print("\nRead each brief, correct what only you know, then hand it to your agent.")
     elif skipped:
-        print("\nNothing to write. Pass --force to rewrite a brief for a wiki that has pages.")
+        print("\nNothing to write. Pass --force to rewrite a brief for a wiki already written.")
 
 
 def cmd_stale(args: argparse.Namespace) -> int:
@@ -526,7 +535,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     boot = sub.add_parser("bootstrap", help="write the brief for a wiki's first page")
     boot.add_argument("wiki", nargs="?", help="which wiki (default: the only one)")
-    boot.add_argument("--force", action="store_true", help="print it even if the wiki has pages")
+    boot.add_argument("--force", action="store_true", help="write it even if the wiki has pages")
     boot.set_defaults(func=cmd_bootstrap)
 
     stale = sub.add_parser("stale", help="list pages whose covers moved since verified-at")
