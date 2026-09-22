@@ -128,7 +128,7 @@ Point your agent at whatever you understand least — that is where a page is wo
 > `wiki/backend/` in the Portolano format. Set `verified-at` to the commit you read and
 > `covers` to the paths it describes. Add it to `index.md` and append one line to `CHANGELOG.md`.
 
-The page format is in the [format reference](format.md). The short version: full frontmatter, then whatever structure the subject asks for — *What it does · Where it lives (`file:line`) · Gotchas · Open questions* is a good default, not a schema. Three rules are firm, and they are about weight rather than shape: no pasted code, tables instead of paragraphs, the result and not the investigation.
+The page format is in the [format reference](format.md). The short version: full frontmatter, then whatever structure the subject asks for — *The idea · Where it lives (`file:line`) · Gotchas · Open questions* is a good default, not a schema. Pages are short prose carried by lists, tables and Mermaid diagrams where the content has that shape, and they explain the idea rather than paraphrase the code. Two rules are firm, and they are about weight rather than shape: no pasted code, and the result rather than the investigation.
 
 ## 6. Keep it true
 

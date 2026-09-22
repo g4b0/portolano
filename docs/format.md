@@ -4,7 +4,7 @@ The wiki about the wiki. You do not need this page to start — see the [quickst
 
 Every page is plain markdown with YAML frontmatter and relative links. No build step, no search engine, no plugin: anything that can read files can read the wiki.
 
-**One rule sits above all the others: the wiki describes concepts, not code.** The code is accessible — if a reader needs it, they open it. A page that narrates what a function does duplicates something that is already readable, and duplicates it in a form that goes wrong the moment the function changes. Pages carry what reading the code cannot give you: the *why*, the boundary, the abandoned attempt, the trap. Everything below is in service of that.
+**One rule sits above all the others: the wiki orients, it does not paraphrase.** Its reader is a programmer or an agent, and both can read the code — if they need it, they open it. The wiki is how they find their way in it: the concepts, the algorithms, the architecture. A page that narrates what a function does duplicates something that is already readable, and duplicates it in a form that goes wrong the moment the function changes. Pages carry what reading the code cannot give you: the *why*, the boundary, the abandoned attempt, the trap. Everything below is in service of that.
 
 ---
 
@@ -125,7 +125,7 @@ So this is a good default, not a schema:
 
 | Section | What goes in it |
 |---|---|
-| What it does | the conclusion, not the investigation |
+| The idea | the concept, the algorithm or the architecture — what the code cannot say about itself. The conclusion, not the investigation |
 | Where it lives | a table of `file:line` — never pasted code, which rots silently |
 | Gotchas | the non-obvious, and above all the *why* |
 | Open questions | what you did not resolve. Declare it; do not drop it |
@@ -149,11 +149,11 @@ The second failure is the one people create while fixing the first, so it is wor
 
 ### What actually makes pages bloat
 
-Prose is the failure mode. A model writes the way it talks, and an unconstrained context file grows without bound — measured across 2,303 files in [*Agent READMEs*](https://doi.org/10.1145/3840295) and across 247,694 instruction lifetimes in [arXiv:2608.11095](https://arxiv.org/abs/2608.11095), which found prompts more than tripling over their lifetime and older instructions becoming *less* likely to ever be deleted.
+Padding is the failure mode. A model writes the way it talks, and an unconstrained context file grows without bound — measured across 2,303 files in [*Agent READMEs*](https://doi.org/10.1145/3840295) and across 247,694 instruction lifetimes in [arXiv:2608.11095](https://arxiv.org/abs/2608.11095), which found prompts more than tripling over their lifetime and older instructions becoming *less* likely to ever be deleted.
 
 Three rules push back, and none of them is about size:
 
-1. **Tables and lists instead of paragraphs.**
+1. **Short prose, carried by structure.** A paragraph says one thing in a few sentences; items in parallel become a list, comparisons a table, flows a Mermaid diagram. The author picks. Both extremes fail the human who has to maintain the page: a wall of text buries the point, and a page made of huge tables cannot be read at all.
 2. **No narrative of the discovery.** The result, not the voyage. This is where most of the weight comes from.
 3. **Changelog entries stay under ~200 characters**: `DATE slug what changed (why)`. This one *is* a hard cap, because a changelog has a fixed job. If a finding deserves more room it belongs in a page, and the changelog links to it.
 

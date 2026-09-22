@@ -33,11 +33,12 @@ AGENTS_MD = """# {name} — repository map and wiki router
 governs it, and it holds the rules that apply everywhere. Everything project-specific — \
 domain knowledge, gotchas, how a subsystem works — lives in the wiki, never here.
 
-**The wiki describes concepts, not code.** The code is right there and you can read it, so a \
-page that narrates what a function does is a page that will be wrong next month and was never \
-worth the tokens. Write what reading the code cannot tell you: why it is this way, what was \
-tried and abandoned, where one responsibility ends and the next begins, which trap is waiting. \
-Point at the code with `file:line` and let the reader open it.
+**The wiki orients; it does not paraphrase.** Its reader is a programmer or an agent, and both \
+can read the code. A page that walks through what a function does duplicates something already \
+readable, and goes wrong the moment the function changes. Write what the code cannot tell you: \
+the concepts, the algorithm when there is one, the architecture and where one responsibility ends \
+and the next begins, why it is this way, what was tried and abandoned, which trap is waiting. \
+Then point at the code with `file:line` and let the reader open it.
 
 ## Repository map
 
@@ -83,14 +84,19 @@ evidence:    read | inferred | run                             # recommended
 ```
 
 Body: **no fixed structure.** A page a human wants to edit is worth more than a page that \
-matches a template. *What it does · Where it lives (`file:line`) · Gotchas · Open questions* is a \
+matches a template. *The idea · Where it lives (`file:line`) · Gotchas · Open questions* is a \
 good default when nothing better suggests itself — drop a heading with nothing under it, add one \
 the subject needs.
 
-What is not negotiable is the weight, not the shape. **Tables and lists instead of paragraphs. \
-The result instead of the investigation. Never pasted code — cite `file:line`.** Those three are \
-the guardrail that keeps an agent's prose from taking the page over; everything above them is \
-the author's call.
+**Write for a human first: short prose, carried by structure.** A paragraph says one thing in a \
+few sentences. Where the content has a shape, give it that shape — a list for items in parallel, \
+a table for a comparison, a Mermaid diagram for a flow. Which one is your judgement: a table \
+nobody can read at a glance should have been two sentences, and a paragraph naming six things \
+should have been a list.
+
+What is not negotiable is the weight, not the shape. **The result instead of the investigation. \
+Never pasted code — cite `file:line`.** Those two keep an agent's prose from taking the page over; \
+everything else is the author's call.
 
 **One page answers one question.** Split a page that answers two, or whose `covers` spans \
 unrelated parts of the tree. Merge one that cannot be acted on without opening another. \
