@@ -2,7 +2,7 @@
 
 A working wiki in about ten minutes.
 
-> **Status.** `portolano` v0.1 works — `init`, `add`, `bootstrap`, `master`, `remove` and `stale` are implemented and tested. It is **not on PyPI yet**, so install it from the repository (below). `lint` and `reindex` are not written yet — the format does not depend on them.
+> **Status.** `portolano` v0.2 works — `init`, `add`, `bootstrap`, `master`, `remove` and `stale` are implemented and tested. It is **not on PyPI yet**, so install it from the repository (below). `lint` and `reindex` are not written yet — the format does not depend on them.
 
 ---
 
